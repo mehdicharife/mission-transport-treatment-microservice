@@ -1,5 +1,22 @@
-{"properties": [{
-  "name": "queueName",
-  "type": "java.lang.String",
-  "description": "A description for 'queueName'"
-}]}
+{"properties": [
+  {
+    "name": "missionRequestApprovedQueue",
+    "type": "java.lang.String",
+    "description": "A description for 'missionRequestApprovedQueue'"
+  },
+  {
+    "name": "missionRequestApprovedTopic",
+    "type": "java.lang.String",
+    "description": "A description for 'missionRequestApprovedTopic'"
+  },
+  {
+    "name": "missionTransportTreatedTopic",
+    "type": "java.lang.String",
+    "description": "A description for 'missionTransportTreatedTopic'"
+  },
+  {
+    "name": "esb",
+    "type": "java.lang.String",
+    "description": "A description for 'esb'"
+  }
+]}

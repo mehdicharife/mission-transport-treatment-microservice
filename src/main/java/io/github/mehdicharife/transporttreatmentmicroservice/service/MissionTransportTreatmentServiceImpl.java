@@ -6,7 +6,7 @@ import io.github.mehdicharife.transporttreatmentmicroservice.domain.MissionTrans
 import io.github.mehdicharife.transporttreatmentmicroservice.repository.MissionTransportTreatmentRepository;
 
 @Service
-public class MissionTransportTreatmentServiceImpl {
+public class MissionTransportTreatmentServiceImpl implements MissionTransportTreatmentService{
 
     private MissionTransportTreatmentRepository repository;
 
@@ -15,7 +15,7 @@ public class MissionTransportTreatmentServiceImpl {
         this.repository = repository;
     }
 
-    MissionTransportTreatment saveMissionTransportTreatment(MissionTransportTreatment missionTransportTreatment) {
+    public MissionTransportTreatment saveMissionTransportTreatment(MissionTransportTreatment missionTransportTreatment) {
         return this.repository.save(missionTransportTreatment);
     }
 }

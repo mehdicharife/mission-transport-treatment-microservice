@@ -4,6 +4,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,7 +16,7 @@ import io.github.mehdicharife.transporttreatmentmicroservice.service.MissionTran
 
 
 @Component
-@RabbitListener(queues = "mission-request-approved-transport-queue")
+@RabbitListener(queues = "${missionRequestApprovedQueue}")
 public class MissionRequestApprovedEventListener {
 
     @Autowired
@@ -30,17 +31,23 @@ public class MissionRequestApprovedEventListener {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Value("${missionTransportTreatedTopic}")
+    private String MISSION_TRANSPORT_TREATED_EXCHANGE_NAME;
+
+    @Value("${esb}")
+    private String esb;
+
 
     @RabbitHandler
     public void react(MissionRequestApprovedEvent event) {
-        Mission mission = restTemplate.getForObject("http://localhost:8089/esb/missions/" + event.getMissionId(),
+        Mission mission = restTemplate.getForObject(esb + "missions/" + event.getMissionId(),
          Mission.class
         );
 
         MissionTransportTreatment treatment = missionTransportProcessor.processTransport(mission);
         missionTransportTreatmentService.saveMissionTransportTreatment(treatment);
 
-        rabbitTemplate.convertAndSend("mission-transport-treated", "", treatment);
+        rabbitTemplate.convertAndSend(MISSION_TRANSPORT_TREATED_EXCHANGE_NAME, "", treatment);
     }
     
 }
