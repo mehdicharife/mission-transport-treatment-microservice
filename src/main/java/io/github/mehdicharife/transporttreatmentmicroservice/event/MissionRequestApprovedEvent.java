@@ -1,10 +1,10 @@
 package io.github.mehdicharife.transporttreatmentmicroservice.event;
 
+
 public class MissionRequestApprovedEvent {
 
     private Long requestId;
 
-    
     private Long missionId;
 
 

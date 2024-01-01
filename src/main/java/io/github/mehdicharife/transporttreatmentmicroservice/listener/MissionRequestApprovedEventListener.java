@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import io.github.mehdicharife.transporttreatmentmicroservice.domain.Mission;
 import io.github.mehdicharife.transporttreatmentmicroservice.domain.MissionTransportTreatment;
-import io.github.mehdicharife.transporttreatmentmicroservice.event.MissionRequestApprovedEvent;
+import ma.ensias.missionrequestservice.event.MissionRequestApprovedEvent;
 import io.github.mehdicharife.transporttreatmentmicroservice.service.MissionTransportProcessor;
 import io.github.mehdicharife.transporttreatmentmicroservice.service.MissionTransportTreatmentService;
 
@@ -43,6 +43,8 @@ public class MissionRequestApprovedEventListener {
         Mission mission = restTemplate.getForObject(esb + "missions/" + event.getMissionId(),
          Mission.class
         );
+
+        System.out.println(mission);
 
         MissionTransportTreatment treatment = missionTransportProcessor.processTransport(mission);
         missionTransportTreatmentService.saveMissionTransportTreatment(treatment);

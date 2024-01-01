@@ -4,6 +4,7 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.core.Binding.DestinationType;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -30,14 +31,14 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue missionRequestApprovedQueue() {
-        return new Queue(MISSION_REQUEST_APPROVED_QUEUE_NAME, true);
+        return QueueBuilder.durable(MISSION_REQUEST_APPROVED_QUEUE_NAME).build();
     }
 
 
     @Bean
     public Binding missionRequestApprovedExchangeBinding(Queue missionRequestApprovedQueue) {
-        return new Binding(missionRequestApprovedQueue.getName(), 
-            DestinationType.EXCHANGE,
+        return new Binding(MISSION_REQUEST_APPROVED_QUEUE_NAME, 
+            DestinationType.QUEUE,
             MISSION_REQUEST_APPROVED_EXCHANGE_NAME,
             "",
             null
