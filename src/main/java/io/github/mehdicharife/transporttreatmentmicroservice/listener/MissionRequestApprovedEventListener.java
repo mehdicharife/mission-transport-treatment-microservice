@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import io.github.mehdicharife.transporttreatmentmicroservice.domain.Mission;
 import io.github.mehdicharife.transporttreatmentmicroservice.domain.MissionTransportTreatment;
+import io.github.mehdicharife.transporttreatmentmicroservice.event.MissionTransportTreatedEvent;
 import ma.ensias.missionrequestservice.event.MissionRequestApprovedEvent;
 import io.github.mehdicharife.transporttreatmentmicroservice.service.MissionTransportProcessor;
 import io.github.mehdicharife.transporttreatmentmicroservice.service.MissionTransportTreatmentService;
@@ -48,8 +49,9 @@ public class MissionRequestApprovedEventListener {
 
         MissionTransportTreatment treatment = missionTransportProcessor.processTransport(mission);
         missionTransportTreatmentService.saveMissionTransportTreatment(treatment);
+        MissionTransportTreatedEvent missionTransportTreatedEvent = new MissionTransportTreatedEvent(mission.getId(), event.getRequestId());
 
-        rabbitTemplate.convertAndSend(MISSION_TRANSPORT_TREATED_EXCHANGE_NAME, "", treatment);
+        rabbitTemplate.convertAndSend(MISSION_TRANSPORT_TREATED_EXCHANGE_NAME, "", missionTransportTreatedEvent);
     }
     
 }
