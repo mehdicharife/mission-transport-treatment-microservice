@@ -8,6 +8,8 @@ public class MissionTransportTreatedEvent {
 
     private Long requestId;
 
+    private Long professorId;
+
 
     public MissionTransportTreatedEvent() {
 
@@ -17,6 +19,14 @@ public class MissionTransportTreatedEvent {
         this.missionId = missionId;
         this.requestId = requestId;
     }
+
+
+    public MissionTransportTreatedEvent(Long missionId, Long requestId, Long professorId) {
+        this.missionId = missionId;
+        this.requestId = requestId;
+        this.professorId = professorId;
+    }
+
 
 
     public Long getMissionId() {
@@ -33,6 +43,15 @@ public class MissionTransportTreatedEvent {
 
     public void setRequestId(Long requestId) {
         this.requestId = requestId;
+    }
+
+
+    public Long getProfessorId() {
+        return this.professorId;
+    }
+
+    public void setProfessorId(Long professorId) {
+        this.professorId = professorId;
     }
 
     

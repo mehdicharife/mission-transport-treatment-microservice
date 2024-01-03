@@ -42,14 +42,18 @@ public class MissionRequestApprovedEventListener {
     @RabbitHandler
     public void react(MissionRequestApprovedEvent event) {
         Mission mission = restTemplate.getForObject(esb + "missions/" + event.getMissionId(),
-         Mission.class
+        Mission.class
         );
 
-        System.out.println(mission);
 
         MissionTransportTreatment treatment = missionTransportProcessor.processTransport(mission);
         missionTransportTreatmentService.saveMissionTransportTreatment(treatment);
-        MissionTransportTreatedEvent missionTransportTreatedEvent = new MissionTransportTreatedEvent(mission.getId(), event.getRequestId());
+
+        MissionTransportTreatedEvent missionTransportTreatedEvent = new MissionTransportTreatedEvent(
+            mission.getId(), 
+            event.getRequestId(),
+            event.getProfessorId()
+        );
 
         rabbitTemplate.convertAndSend(MISSION_TRANSPORT_TREATED_EXCHANGE_NAME, "", missionTransportTreatedEvent);
     }
